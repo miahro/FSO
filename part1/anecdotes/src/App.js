@@ -7,6 +7,36 @@ const Button = ({ handleClick, text}) =>
     </button>
   )
 
+const ViewAnecdote = (props) => {
+  console.log('in ViewAnecdote', {props})
+  return(
+    <div>
+      {props.anecdote} 
+      <br />
+      has {props.votes} votes
+    </div>
+  )
+
+}
+
+const ViewMaxAnecdote = (props) => {
+  let max_pt = -1
+  let max_i = -1
+  for (let i = 0; i < props.anecdotes.length; i++){
+    if (props.points[i]> max_pt) {
+      max_pt=props.points[i]
+      max_i = i
+    }
+  }
+  console.log('max_i',max_i)
+  return (
+    <div>
+      <ViewAnecdote anecdote = {props.anecdotes[max_i]} votes = {props.points[max_i]} />
+    </div>
+  )
+
+}
+
 
 const App = () => {
   const anecdotes = [
@@ -22,19 +52,39 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
 
+  const [points, setPoints] = useState([0,0,0,0,0,0,0,0])
+
+  console.log(points)
 
   const changeSelected = () => {
     console.log('Setselected: ', {selected})
     setSelected(Math.floor(Math.random()*anecdotes.length))
   }
 
+  const increaseVote = () => {
+    console.log('Vote: ', {selected})
+    const copy = {...points}
+    copy[selected] += 1
+    console.log('after voting: ', copy[selected])
+    console.log(points)
+    console.log(copy)
+    setPoints(copy)
+  }
 
   console.log('state:', {selected})
+  console.log('anecdotes total', anecdotes.length)
+  console.log(points)
+
+
 
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
+      <h1>Anecdote of the day</h1>
+      <ViewAnecdote anecdote={anecdotes[selected]} votes={points[selected]}></ViewAnecdote>
+      <Button handleClick= {increaseVote} text='vote' />
       <Button handleClick={changeSelected} text='next anecdote' />
+      <h1>Anecdote with most votes</h1>
+      <ViewMaxAnecdote anecdotes={anecdotes} points={points} />
     </div>
   )
 }
