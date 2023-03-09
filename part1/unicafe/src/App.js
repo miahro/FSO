@@ -1,5 +1,15 @@
 import { useState } from 'react'
 
+const StatisticLine = (props) => {
+  console.log('In StatisticLine', {props})
+  return (
+    <div>
+      <p> {props.text} {props.value} {props.unit}</p>
+    </div>
+  )
+
+}
+
 const Statistics = (props) => {
   console.log('Statistics', {props})
   if (props.allClicks === 0) {
@@ -13,11 +23,11 @@ const Statistics = (props) => {
   return (
     <div>
       <h1>statistics</h1>
-      <p>good: {props.good}</p>
-      <p>neutral: {props.neutral}</p>
-      <p>bad: {props.bad}</p>
-      <p>average: {(props.good * 1 + props.neutral * 0 + props.bad * (-1))/props.allClicks}</p>
-      <p>positive: {props.good / props.allClicks * 100} % </p>
+      <StatisticLine text="good" value = {props.good} />
+      <StatisticLine text="neutral" value = {props.neutral} />
+      <StatisticLine text="bad" value = {props.bad} />
+      <StatisticLine text="average" value = {(props.good * 1 + props.neutral * 0 + props.bad * (-1))/props.allClicks} />
+      <StatisticLine text="positive" value = {props.good / props.allClicks * 100} unit='%'/>
     </div>
   )
 }
