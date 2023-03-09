@@ -9,3 +9,5 @@ Course Full Stack Open exercises submission repository.
 
 ## Part 1
 - [courseinfo](https://github.com/miahro/FSO/tree/master/part1/courseinfo)
+- [unicafe](https://github.com/miahro/FSO/tree/master/part1/unicafe)
+
