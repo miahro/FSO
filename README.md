@@ -13,4 +13,4 @@ Course Full Stack Open exercises submission repository.
 - [anecdotes](https://github.com/miahro/FSO/tree/master/part1/anecdotes)
 
 ## Part 2
-- [courseinfo]()
+- [courseinfo](https://github.com/miahro/FSO/tree/master/part2/courseinfo)
