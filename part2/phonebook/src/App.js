@@ -10,9 +10,9 @@ const App = () => {
     { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
   ]) 
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
   const addPerson = (event) => {
-
     event.preventDefault()
     console.log('newName ', newName)
     const found = persons.some(person => person.name === newName);
@@ -21,11 +21,19 @@ const App = () => {
     else {
       const personObject = {
         name : newName,
+        number: newNumber,
         id : persons.length +1
       }
       setPersons(persons.concat(personObject))
       setNewName('')
+      setNewNumber('')
     }
+  }
+
+  const handleNumberChange = (event) => {
+    console.log(event.target.value)
+    console.log("handleNumberChange", newNumber)
+    setNewNumber(event.target.value)
   }
 
   const handlePersonChange = (event) => {
@@ -37,12 +45,9 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handlePersonChange} required/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
+        <div> name: <input name='name' value={newName} onChange={handlePersonChange} label='name' required/></div>
+        <div> number: <input name='number' value={newNumber} onChange={handleNumberChange} label='number' /></div>
+        <div><button type="submit">add</button></div>
       </form>
       <h2>Numbers</h2>
       <Persons persons={persons}/>
