@@ -1,15 +1,5 @@
 
-const Person = (props) => {
-    console.log('in component Person ', props)
-    return (
-        <>
-            {props.name} {props.number} <br></br>
-        </>
-    )
-
-
-}
-
+import Person from './Person'
 
 const Persons = (props) => {
     console.log('in component Persons',props)
