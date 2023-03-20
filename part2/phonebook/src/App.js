@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react'
-import Persons from './components/Persons'
+//import Persons from './components/Persons'
 import Submit_form from './components/Submit_form'
 import Filter_form from './components/Filter_form'
 import personService from './services/persons'
+//import axios from 'axios'
+
+import Person from './components/Person'
 
 const App = () => {
 
@@ -13,7 +16,6 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setFilter] = useState('')
-
 
   useEffect(() => {
     personService
@@ -36,7 +38,7 @@ const App = () => {
       const personObject = {
         name : newName,
         number: newNumber,
-        id : persons.length +1
+        id : Math.max(persons.id)
       }
       personService
         .create(personObject)
@@ -49,6 +51,22 @@ const App = () => {
   }
 
 
+  const handleDelete = (id) => {
+    console.log("in function handleDelete", {id})
+    const target = persons.find(target => target.id === id)
+    console.log('handleDelete', target.name)
+    if (window.confirm(`Deletete ${target.name} ?`))
+      {personService
+        .deleteItem(id)
+        .then(() =>
+         personService
+            .getAll()
+            .then(response=> {
+              setPersons(response.data)
+            console.log(response.data)
+        })
+      )}
+  }
 
   const handleNumberChange = (event) => {
     console.log(event.target.value)
@@ -63,10 +81,18 @@ const App = () => {
 
   const handleFilter = (event) => {
     console.log(event.target.value)
-    setFilter(event.target.value)
+    setFilter(event.target.value)    
   }
 
+
+  const personsToShow = persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
+
+
+
+
   console.log('in Main filtered: ', persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase())))
+
+
 
   return (
     <div>
@@ -84,8 +110,20 @@ const App = () => {
         onSubmit={addPerson}
       />
 
+
       <h3>Numbers</h3>
-      <Persons persons={persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))} />
+      <>
+            {personsToShow.map(person => 
+               <Person click={() => handleDelete(person.id)} 
+               key={person.id}
+               id={person.id}
+               name={person.name}
+               number={person.number}
+               />
+                ) }
+                                
+        </> 
+    
     </div>
   )
 }
