@@ -33,7 +33,23 @@ const App = () => {
     console.log('newName ', newName)
     const found = persons.some(person => person.name === newName);
     console.log("test if found: ", found)
-    if (found) {alert(`${newName} is already added to phonebook`)}
+    if (found) {
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with new one?`))
+              {
+                const personObject = {
+                  name : newName,
+                  number: newNumber,
+                  id : persons.filter((person)=>person.name === newName)[0].id
+                }
+                personService
+                  .update(personObject.id, personObject)
+                  .then(response => {
+                    setPersons(persons.filter((person)=>person.id !==personObject.id).concat(response.data))
+                    setNewName('')
+                    setNewNumber('')
+                  })
+              }
+    }
     else {
       const personObject = {
         name : newName,
@@ -86,13 +102,7 @@ const App = () => {
 
 
   const personsToShow = persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
-
-
-
-
   console.log('in Main filtered: ', persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase())))
-
-
 
   return (
     <div>
