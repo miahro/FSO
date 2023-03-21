@@ -6,7 +6,7 @@ import personService from './services/persons'
 //import axios from 'axios'
 import './index.css'
 import Success from './components/Success'
-
+import Error from './components/Error'
 
 import Person from './components/Person'
 
@@ -20,6 +20,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setFilter] = useState('')
   const [actionMessage, setActionMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
+
 
   useEffect(() => {
     personService
@@ -79,27 +81,38 @@ const App = () => {
       }
   }
 
-
   const handleDelete = (id) => {
     console.log("in function handleDelete", {id})
+    let error = false
     const target = persons.find(target => target.id === id)
     console.log('handleDelete', target.name)
     if (window.confirm(`Deletete ${target.name} ?`))
-      {personService
+      personService
         .deleteItem(id)
-        .then(() =>
-         personService
-            .getAll()
-            .then(response=> {
-              setPersons(response.data)
-            console.log(response.data)
-            setActionMessage (`Deleted ${target.name}`)
-            setTimeout(()=> {
-              setActionMessage(null)
-            }, 3000)            
-        })
-      )}
+        .then(() => {
+          personService
+             .getAll()
+ 
+             .then(response=> {
+               setPersons(response.data)
+             console.log(response.data)
+             setActionMessage (`Deleted ${target.name}`)
+             setTimeout(()=> {
+               setActionMessage(null)
+             }, 3000)            
+         })})
+        .catch(error=> {
+          console.log('trying to catch error here', error)
+          console.log(error)
+          setErrorMessage(`Information of ${target.name} has already been removed from server `)
+          setTimeout(()=>{
+            setErrorMessage(null)
+          }, 5000)
+          })
+     
   }
+
+
 
   const handleNumberChange = (event) => {
     console.log(event.target.value)
@@ -125,6 +138,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Success message={actionMessage}/>
+      <Error message={errorMessage}/>
       <Filter_form 
         onFilterChange={handleFilter}
         filterValue={newFilter}
