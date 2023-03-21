@@ -4,6 +4,9 @@ import Submit_form from './components/Submit_form'
 import Filter_form from './components/Filter_form'
 import personService from './services/persons'
 //import axios from 'axios'
+import './index.css'
+import Success from './components/Success'
+
 
 import Person from './components/Person'
 
@@ -16,6 +19,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setFilter] = useState('')
+  const [actionMessage, setActionMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -47,6 +51,10 @@ const App = () => {
                     setPersons(persons.filter((person)=>person.id !==personObject.id).concat(response.data))
                     setNewName('')
                     setNewNumber('')
+                    setActionMessage (`Updated ${newName}`)
+                    setTimeout(()=> {
+                      setActionMessage(null)
+                    }, 3000)
                   })
               }
     }
@@ -62,6 +70,11 @@ const App = () => {
           setPersons(persons.concat(response.data))
           setNewName('')
           setNewNumber('')
+          setActionMessage (`Added ${newName}`)
+          setTimeout(()=> {
+            setActionMessage(null)
+          }, 3000)
+
         })
       }
   }
@@ -80,6 +93,10 @@ const App = () => {
             .then(response=> {
               setPersons(response.data)
             console.log(response.data)
+            setActionMessage (`Deleted ${target.name}`)
+            setTimeout(()=> {
+              setActionMessage(null)
+            }, 3000)            
         })
       )}
   }
@@ -107,6 +124,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Success message={actionMessage}/>
       <Filter_form 
         onFilterChange={handleFilter}
         filterValue={newFilter}
