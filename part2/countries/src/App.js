@@ -24,6 +24,7 @@ const App = () => {
     setFilter(event.target.value)    
   }
 
+
   console.log('in Main filtered: ', countries.filter(country => country.name.common.toLowerCase().includes(newFilter.toLowerCase()) ||country.name.official.toLowerCase().includes(newFilter.toLowerCase())))
   //const countriesToShow =countries.filter(country => country.name.common.toLowerCase().includes(newFilter.toLowerCase()) ||country.name.official.toLowerCase().includes(newFilter.toLowerCase()))
   const countriesToShow =countries.filter(country => country.name.common.toLowerCase().includes(newFilter.toLowerCase()))
@@ -34,7 +35,9 @@ const App = () => {
         filterValue={newFilter}
       />
     <>
-    <Countries countrylist={countriesToShow}/>   
+      <Countries countrylist={countriesToShow}
+        setFilter={setFilter}
+      />   
     </>
     
     </div>

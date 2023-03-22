@@ -12,7 +12,7 @@ const Country = ({name, capital, area, languages, flags}) => {
             <h3>Languages</h3>
             <ul>
                 {Object.entries(languages).map(([abb, lang]) => (
-                <li>{lang}</li>))}
+                <li key={abb}> {lang}</li>))}
 
             </ul>
 

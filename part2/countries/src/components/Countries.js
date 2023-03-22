@@ -1,6 +1,6 @@
 import Country from './Country'
 
-const Countries = ({countrylist}) => {
+const Countries = ({countrylist, setFilter}) => {
     if (countrylist.length > 10) {
         console.log("too many")
         return (
@@ -11,7 +11,9 @@ const Countries = ({countrylist}) => {
         console.log('in component Countries ', countrylist)
         return (
             <>
-               {countrylist.map(country => <>{country.name.common}<br></br></> )}
+               {countrylist.map(country => <>{country.name.common} &nbsp;
+               {<button onClick={()=>{setFilter(country.name.common)}}>show</button>}<br></br>
+               </>)}
             </>
     )}
     else if (countrylist.length === 1) {
