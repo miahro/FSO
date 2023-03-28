@@ -1,6 +1,6 @@
 import Country from './Country'
 
-const Countries = ({countrylist, setFilter}) => {
+const Countries = ({countrylist, setFilter, weatherdata, setweathertarget}) => {
     if (countrylist.length > 10) {
         console.log("too many")
         return (
@@ -23,7 +23,9 @@ const Countries = ({countrylist, setFilter}) => {
         console.log(countrylist[0].languages)
         console.log(typeof(countrylist[0].languages))
         console.log(countrylist[0].flag)
-          
+
+        setweathertarget(countrylist[0].capital)
+
         return (
             <>
                 <Country 
@@ -32,6 +34,7 @@ const Countries = ({countrylist, setFilter}) => {
                     area={countrylist[0].area}
                     languages={countrylist[0].languages}
                     flags={countrylist[0].flags}
+                    weatherdata={weatherdata}
                 />
             </>
     )}
